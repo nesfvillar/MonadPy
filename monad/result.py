@@ -8,7 +8,7 @@ class Result(Monad):
         self._error = error
 
     def bind(self, f):
-        if self._error:
+        if self.isError():
             return self
 
         try:
