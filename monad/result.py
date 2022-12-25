@@ -18,10 +18,10 @@ class Result(Monad):
             error = {
                 "exception": e,
                 "trace": extract_stack(),
-                "value": self.unwrap()
+                "value": self._value
             }
 
-            return Result(None, error)
+            return Result(self._value, error)
 
     def isOk(self):
         return self._error is not None
