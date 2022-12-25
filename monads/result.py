@@ -1,5 +1,4 @@
 from monads.monad import Monad
-from traceback import extract_stack
 
 
 class Result(Monad):
@@ -17,7 +16,6 @@ class Result(Monad):
         except Exception as e:
             error = {
                 "exception": e,
-                "trace": extract_stack(),
                 "value": self._value
             }
 
