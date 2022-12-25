@@ -13,9 +13,9 @@ class TestResult(TestCase):
         self.assertTrue(all(just.isJust() for just in self.justs))
         self.assertFalse(any(none.isJust() for none in self.nones))
 
-    def test_isNone(self):
-        self.assertTrue(all(none.isNone() for none in self.nones))
-        self.assertFalse(any(just.isNone() for just in self.justs))
+    def test_isNothing(self):
+        self.assertTrue(all(none.isNothing() for none in self.nones))
+        self.assertFalse(any(just.isNothing() for just in self.justs))
 
     def test_unwrap(self):
         self.assertListEqual([5, 0, "", "None"], [just.unwrap()

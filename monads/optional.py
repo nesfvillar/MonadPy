@@ -11,5 +11,5 @@ class Optional(Monad):
     def isJust(self):
         return self.unwrap() is not None
 
-    def isNone(self):
+    def isNothing(self):
         return not self.isJust()
