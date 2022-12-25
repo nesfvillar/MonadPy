@@ -4,3 +4,7 @@ class Monad:
 
     def unwrap(self):
         return self._value
+
+    @classmethod
+    def functionConvert(cls, func):
+        return lambda *args, **kwargs: cls(func(*args, **kwargs))
