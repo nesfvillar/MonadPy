@@ -1,4 +1,4 @@
-from monad.monad import Monad
+from monads.monad import Monad
 from traceback import extract_stack
 
 
