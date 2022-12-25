@@ -1,4 +1,4 @@
-from monad import Monad
+from monad.monad import Monad
 
 
 class Optional(Monad):
