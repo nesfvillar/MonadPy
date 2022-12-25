@@ -1,5 +1,5 @@
 from monad import Monad
-from traceback import format_stack
+from traceback import extract_stack
 
 
 class Result(Monad):
@@ -17,7 +17,7 @@ class Result(Monad):
         except Exception as e:
             error = {
                 "exception": e,
-                "trace": format_stack(),
+                "trace": extract_stack(),
                 "value": self.unwrap()
             }
 
