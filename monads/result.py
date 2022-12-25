@@ -24,10 +24,10 @@ class Result(Monad):
             return Result(self._value, error)
 
     def isOk(self):
-        return self._error is not None
+        return self._error is None
 
     def isError(self):
         return not self.isOk()
-    
+
     def getError(self):
         return self._error
