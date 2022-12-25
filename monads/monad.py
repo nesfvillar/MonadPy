@@ -5,6 +5,9 @@ class Monad:
     def __rshift__(self, func):
         return self.bind(func)
 
+    def __or__(self, func):
+        return self.bind(self.functionConvert(func))
+
     def unwrap(self):
         return self._value
 
