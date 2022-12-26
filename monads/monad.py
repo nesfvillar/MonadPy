@@ -2,20 +2,19 @@ class Monad:
     def __init__(self, value):
         self._value = value
 
-    def bind(self, f):
-        return f(self._value)
-
-    def __rshift__(self, func):
-        return self.bind(func)
-
-    def __or__(self, func):
-        return self.bind(self.functionConvert(func))
+    def bind(self, *funcs):
+        value = self
+        for func in funcs:
+            value = func(value.unwrap())
+            if not issubclass(type(value), self.__class__):
+                value = self.__class__(value)
+        return value
 
     def unwrap(self):
         return self._value
 
     @classmethod
-    def functionConvert(cls, func):
+    def fnConvert(cls, func):
         return lambda *args, **kwargs: cls(func(*args, **kwargs))
 
     def __eq__(self, __monad):

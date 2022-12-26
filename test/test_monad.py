@@ -9,19 +9,18 @@ class TestResult(TestCase):
         self.monad = Optional(5)
 
     def test_bind(self):
-        self.assertEqual(Optional(6),
-                         self.monad.bind(lambda x: Optional(x + 1)))
+        @Optional.fnConvert
+        def addOne(x):
+            return x + 1
+
+        self.assertEqual(Optional(7), self.monad.bind(addOne, addOne))
 
     def test_unwrap(self):
         self.assertEqual(5, self.monad.unwrap())
 
-    def test___rshift__(self):
-        self.assertEqual(Optional(6),
-                         self.monad >> (lambda x: Optional(x + 1)))
-
-    def test_functionConvert(self):
-        @Optional.functionConvert
+    def test_fnConvert(self):
+        @Optional.fnConvert
         def addOne(x):
             return x + 1
 
-        self.assertEqual(Optional(6), self.monad >> addOne)
+        self.assertEqual(Optional(6), self.monad.bind(addOne))

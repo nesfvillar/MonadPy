@@ -6,12 +6,12 @@ class Result(Monad):
         super().__init__(value)
         self._error = error
 
-    def bind(self, f):
+    def bind(self, *funcs):
         if self.isError():
             return self
 
         try:
-            return super().bind(f)
+            return super().bind(*funcs)
 
         except Exception as e:
             error = {
