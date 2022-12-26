@@ -3,7 +3,7 @@ from monads.monad import Monad
 
 class Result(Monad):
     def __init__(self, value, error=None):
-        self._value = value
+        super().__init__(value)
         self._error = error
 
     def bind(self, f):

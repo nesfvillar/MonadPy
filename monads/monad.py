@@ -1,4 +1,7 @@
 class Monad:
+    def __init__(self, value):
+        self._value = value
+
     def bind(self, f):
         return f(self._value)
 
