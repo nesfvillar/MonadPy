@@ -1,7 +1,5 @@
 from monads.monad import Monad
 
-from collections.abc import Callable
-
 
 class Lazy(Monad):
     def __init__(self, value, *funcs):
