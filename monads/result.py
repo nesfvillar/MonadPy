@@ -16,7 +16,6 @@ class Result(Monad):
         except Exception as e:
             error = {
                 "exception": e,
-                "value": self._value
             }
 
             return Result(self._value, error)
