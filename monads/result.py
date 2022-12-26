@@ -4,7 +4,7 @@ from monads.monad import Monad
 class Result(Monad):
     def __init__(self, value, error=None):
         super().__init__(value)
-        self._error = error
+        self._error = error if error is not None else {}
 
     def bind(self, *funcs):
         if self.isError():
@@ -21,7 +21,7 @@ class Result(Monad):
             return Result(self._value, error)
 
     def isOk(self):
-        return self._error is None
+        return self._error == {}
 
     def isError(self):
         return not self.isOk()
