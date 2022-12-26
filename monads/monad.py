@@ -3,12 +3,12 @@ class Monad:
         self._value = value
 
     def bind(self, *funcs):
-        value = self
+        monad = self
         for func in funcs:
-            value = func(value.unwrap())
-            if not issubclass(type(value), self.__class__):
-                value = self.__class__(value)
-        return value
+            monad = func(monad.unwrap())
+            if not issubclass(type(monad), self.__class__):
+                monad = self.__class__(monad)
+        return monad
 
     def unwrap(self):
         return self._value
