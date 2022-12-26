@@ -4,25 +4,21 @@ from collections.abc import Callable
 
 
 class Lazy(Monad):
-    def __init__(self, value):
-        if isinstance(value, Callable):
-            super().__init__(value)
-        else:
-            super().__init__(lambda: value)
+    def __init__(self, value, *funcs):
+        super().__init__(value)
+        self._funcs = funcs
 
     def bind(self, *funcs):
-        lazy = self
-        for func in funcs:
-            lazy = lazy._bind_help(func)
-
-        return lazy
-
-    def _bind_help(self, func):
-        return Lazy(lambda: func(self.unwrap()))
+        return Lazy(self._value, *(self._funcs + funcs))
 
     def unwrap(self):
-        return super().unwrap()()
+        value = super().unwrap()
+        for func in self._funcs:
+            value = func(value)
+            if issubclass(type(value), Lazy):
+                value = value.unwrap()
+        return value
 
     @classmethod
     def fnConvert(cls, func):
-        return func
+        return lambda value: cls(value, func)
