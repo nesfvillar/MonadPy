@@ -24,6 +24,6 @@ class TestResult(TestCase):
         self.assertFalse(any(ok.isError() for ok in self.oks))
 
     def test_getError(self):
-        self.assertListEqual([None, None], [ok.getError() for ok in self.oks])
+        self.assertListEqual([{}, {}], [ok.getError() for ok in self.oks])
         self.assertListEqual([{"Error": 404}, {"Custom": "Error"}], [
                              error.getError() for error in self.errors])
