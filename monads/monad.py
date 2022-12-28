@@ -19,3 +19,6 @@ class Monad:
 
     def __eq__(self, __monad):
         return self.unwrap() == __monad.unwrap()
+
+    def __rshift__(self, __right):
+        return self.bind(__right)
