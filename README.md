@@ -3,25 +3,28 @@
 ## Example
 
 ```python
-from monads.result import Result
+from monads import *
 
 
 @Result.fnConvert
-def getString(fn: str):
+def getString(fn):
     with open(fn) as fd:
         return fd.read()
 
 
-license = Result("LICENSE.md").bind(
-    getString,
-    str.lower,
-    str.split
-)
+filestring = Result("LICENSE.md") >> getString
+if filestring.isError():
+    # Do whatever with the error
+    ...
+    exit()
 
-if license.isOk():
-    word_list = license.unwrap()
-    print(word_list)
+string = filestring.unwrap()
+word_set = Lazy(string) >> str.lower >> str.split >> (lambda words: {w for w in words})
+keystroke = input("Do you want to see the word set? [y/n] ")
+if keystroke == "y":
+    # The set will only be calculated if you type y!
+    print(word_set.unwrap())
 else:
-    error = license.getError()
-    print(error["exception"])
+    # None of the functions (str.lower, str.split, ...) are called!
+    ...
 ```
