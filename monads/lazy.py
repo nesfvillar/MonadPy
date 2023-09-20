@@ -1,22 +1,22 @@
-from monads.monad import Monad
+from typing import Any, Callable, Generic, List, TypeVar
+from dataclasses import dataclass
 
+A = TypeVar("A")
+B = TypeVar("B")
 
-class Lazy(Monad):
-    def __init__(self, value, *funcs):
-        super().__init__(value)
-        self._funcs = funcs
+@dataclass
+class Lazy(Generic[A]):
+    _value: Any
+    _funcs: List[Callable[[Any], A]]
 
-    def bind(self, *funcs):
-        return Lazy(self._value, *(self._funcs + funcs))
+    def fmap(self, func: Callable[[A], B]) -> 'Lazy[B]':
+        return Lazy(self._value, self._funcs + [func])
 
-    def unwrap(self):
-        value = super().unwrap()
+    def unwrap(self) -> A:
+        value = self._value
         for func in self._funcs:
             value = func(value)
-            if issubclass(type(value), Lazy):
-                value = value.unwrap()
         return value
 
-    @classmethod
-    def fnConvert(cls, func):
-        return lambda value: cls(value, func)
+    def bind(self, func: Callable[[A], 'Lazy[B]']) -> 'Lazy[B]':
+        ...

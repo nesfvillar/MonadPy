@@ -1,24 +1,11 @@
-class Monad:
-    def __init__(self, value):
-        self._value = value
+from typing import Callable, TypeVar, Protocol
 
-    def bind(self, *funcs):
-        monad = self
-        for func in funcs:
-            monad = func(monad.unwrap())
-            if not issubclass(type(monad), self.__class__):
-                monad = self.__class__(monad)
-        return monad
+A = TypeVar("A")
+B = TypeVar("B")
 
-    def unwrap(self):
-        return self._value
+class Monad(Protocol[A]):
+    def unwrap(self) -> A:
+        ...
 
-    @classmethod
-    def fnConvert(cls, func):
-        return lambda *args, **kwargs: cls(func(*args, **kwargs))
-
-    def __eq__(self, __monad):
-        return self.unwrap() == __monad.unwrap()
-
-    def __rshift__(self, __right):
-        return self.bind(__right)
+    def bind(self, func: Callable[[A], 'Monad[B]']) -> 'Monad[B]':
+        ...

@@ -1,30 +1,52 @@
-from monads.monad import Monad
+from typing import Any, Callable, Generic, TypeVar
+from dataclasses import dataclass
+from abc import ABC, abstractmethod
+
+A = TypeVar("A")
+B = TypeVar("B")
 
 
-class Result(Monad):
-    def __init__(self, value, error=None):
-        super().__init__(value)
-        self._error = error if error is not None else {}
+class Result(Generic[A], ABC):
+    @abstractmethod
+    def fmap(self, func: Callable[[A], B]) -> 'Result[B]':
+        ...
 
-    def bind(self, *funcs):
-        if self.isError():
-            return self
+    @abstractmethod
+    def unwrap(self) -> A:
+        ...
 
+    @abstractmethod
+    def bind(self, func: Callable[[A], 'Result[B]']) -> 'Result[B]':
+        ...
+
+
+@dataclass
+class Ok(Result[A]):
+    _value: A
+
+    def fmap(self, func: Callable[[A], B]) -> Result[B]:
         try:
-            return super().bind(*funcs)
+            new_value = func(self._value)
+            return Ok(new_value)
+        except Exception as err:
+            return Err(err)
 
-        except Exception as e:
-            error = {
-                "exception": e,
-            }
+    def unwrap(self) -> A:
+        return self._value
 
-            return Result(self._value, error)
+    def bind(self, func: Callable[[A], Result[B]]) -> Result[B]:
+        return func(self._value)
 
-    def isOk(self):
-        return self._error == {}
 
-    def isError(self):
-        return not self.isOk()
+@dataclass
+class Err(Result[Any]):
+    _error: Exception
 
-    def getError(self):
-        return self._error
+    def fmap(self, func: Callable[[Any], B]) -> Result[B]:
+        return self
+
+    def unwrap(self) -> Any:
+        raise self._error
+
+    def bind(self, func: Callable[[Any], Result[B]]) -> Result[B]:
+        return self
