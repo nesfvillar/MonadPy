@@ -35,7 +35,7 @@ class Nothing(Optional[Any]):
         return self
 
     def unwrap(self) -> None:
-        raise ValueError("Unwraped a Nothing value")
+        raise ValueError("Unwrapped a Nothing value")
 
     def bind(self, func: Callable[[Any], Monad[Any]]) -> 'Nothing':
         return self
