@@ -1,3 +1,4 @@
+from functor import Functor
 from monad import Monad
 
 from typing import Any, Callable, TypeVar
@@ -30,11 +31,14 @@ class Ok(Result[A]):
 class Err(Result[Any]):
     _error: Exception
 
-    def fmap(self, func: Callable[[Any], B]) -> Result[B]:
+    def fmap(self, func: Callable[[Any], Any]) -> 'Err':
+        return self
+
+    def apply(self, value: Functor[Any]) -> 'Err':
         return self
 
     def unwrap(self) -> Any:
         raise self._error
 
-    def bind(self, func: Callable[[Any], Result[B]]) -> Result[B]:
+    def bind(self, func: Callable[[Any], Monad[Any]]) -> 'Err':
         return self

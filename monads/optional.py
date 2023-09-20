@@ -1,3 +1,4 @@
+from functor import Functor
 from monad import Monad
 
 from typing import Any, Callable, TypeVar
@@ -27,11 +28,14 @@ class Some(Optional[A]):
 
 
 class Nothing(Optional[Any]):
-    def fmap(self, func: Callable[[Any], B]) -> Optional[B]:
+    def fmap(self, func: Callable[[Any], Any]) -> 'Nothing':
+        return self
+
+    def apply(self, value: Functor[Any]) -> 'Nothing':
         return self
 
     def unwrap(self) -> None:
         raise ValueError("Unwraped a Nothing value")
 
-    def bind(self, func: Callable[[Any], Optional[B]]) -> Optional[B]:
+    def bind(self, func: Callable[[Any], Monad[Any]]) -> 'Nothing':
         return self
