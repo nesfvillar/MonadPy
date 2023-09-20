@@ -1,11 +1,14 @@
-from typing import Any, Callable, Generic, List, TypeVar
+from monad import Monad
+
+from typing import Any, Callable, List, TypeVar
 from dataclasses import dataclass
+
 
 A = TypeVar("A")
 B = TypeVar("B")
 
 @dataclass
-class Lazy(Generic[A]):
+class Lazy(Monad[A]):
     _value: Any
     _funcs: List[Callable[[Any], A]]
 
@@ -17,6 +20,3 @@ class Lazy(Generic[A]):
         for func in self._funcs:
             value = func(value)
         return value
-
-    def bind(self, func: Callable[[A], 'Lazy[B]']) -> 'Lazy[B]':
-        ...

@@ -1,23 +1,14 @@
-from typing import Any, Callable, Generic, TypeVar
+from monad import Monad
+
+from typing import Any, Callable, TypeVar
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
+
 
 A = TypeVar("A")
 B = TypeVar("B")
 
-
-class Result(Generic[A], ABC):
-    @abstractmethod
-    def fmap(self, func: Callable[[A], B]) -> 'Result[B]':
-        ...
-
-    @abstractmethod
-    def unwrap(self) -> A:
-        ...
-
-    @abstractmethod
-    def bind(self, func: Callable[[A], 'Result[B]']) -> 'Result[B]':
-        ...
+class Result(Monad[A]):
+    ...
 
 
 @dataclass
@@ -33,9 +24,6 @@ class Ok(Result[A]):
 
     def unwrap(self) -> A:
         return self._value
-
-    def bind(self, func: Callable[[A], Result[B]]) -> Result[B]:
-        return func(self._value)
 
 
 @dataclass

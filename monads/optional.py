@@ -1,23 +1,14 @@
-from typing import Any, Callable, Generic, TypeVar
+from monad import Monad
+
+from typing import Any, Callable, TypeVar
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
+
 
 A = TypeVar("A")
 B = TypeVar("B")
 
-class Optional(Generic[A], ABC):
-
-    @abstractmethod
-    def fmap(self, func: Callable[[A], B]) -> 'Optional[B]':
-        ...
-
-    @abstractmethod
-    def unwrap(self) -> A:
-        ...
-
-    @abstractmethod
-    def bind(self, func: Callable[[A], 'Optional[B]']) -> 'Optional[B]':
-        ...
+class Optional(Monad[A]):
+    ...
 
 
 @dataclass
@@ -34,9 +25,6 @@ class Some(Optional[A]):
     def unwrap(self) -> A:
         return self._value
 
-    def bind(self, func: Callable[[A], Optional[B]]) -> Optional[B]:
-        return func(self._value)
-
 
 class Nothing(Optional[Any]):
     def fmap(self, func: Callable[[Any], B]) -> Optional[B]:
@@ -47,5 +35,3 @@ class Nothing(Optional[Any]):
 
     def bind(self, func: Callable[[Any], Optional[B]]) -> Optional[B]:
         return self
-
-
