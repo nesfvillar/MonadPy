@@ -37,7 +37,7 @@ class Err(Result[Any]):
     def apply(self, value: Functor[Any]) -> 'Err':
         return self
 
-    def unwrap(self) -> Any:
+    def unwrap(self) -> None:
         raise self._error
 
     def bind(self, func: Callable[[Any], Monad[Any]]) -> 'Err':
