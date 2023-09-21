@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Callable, Generic, TypeVar
 
@@ -7,5 +9,5 @@ B = TypeVar("B")
 
 class Functor(Generic[A], ABC):
     @abstractmethod
-    def fmap(self, func: Callable[[A], B]) -> 'Functor[B]':
+    def fmap(self, func: Callable[[A], B]) -> Functor[B]:
         ...

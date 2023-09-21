@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functor import Functor
 
 from abc import ABC, abstractmethod
@@ -8,5 +10,5 @@ B = TypeVar("B")
 
 class Applicative(Functor[A], ABC):
     @abstractmethod
-    def apply(self: Functor[Callable[[A], B]], value: Functor[A]) -> Functor[B]:
+    def apply(self: Applicative[Callable[[A], B]], value: Functor[A]) -> Functor[B]:
         ...

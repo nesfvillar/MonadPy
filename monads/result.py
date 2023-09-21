@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functor import Functor
 from monad import Monad
 
@@ -31,14 +33,14 @@ class Ok(Result[A]):
 class Err(Result[Any]):
     _error: Exception
 
-    def fmap(self, func: Callable[[Any], Any]) -> 'Err':
+    def fmap(self, func: Callable[[Any], Any]) -> Err:
         return self
 
-    def apply(self, value: Functor[Any]) -> 'Err':
+    def apply(self, value: Functor[Any]) -> Err:
         return self
 
     def unwrap(self) -> None:
         raise self._error
 
-    def bind(self, func: Callable[[Any], Monad[Any]]) -> 'Err':
+    def bind(self, func: Callable[[Any], Monad[Any]]) -> Err:
         return self
