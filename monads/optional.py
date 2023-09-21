@@ -12,7 +12,7 @@ class Optional(Monad[A]):
     ...
 
 
-@dataclass
+@dataclass(frozen=True)
 class Some(Optional[A]):
     _value: A
 

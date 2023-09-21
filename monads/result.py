@@ -12,7 +12,7 @@ class Result(Monad[A]):
     ...
 
 
-@dataclass
+@dataclass(frozen=True)
 class Ok(Result[A]):
     _value: A
 
@@ -27,7 +27,7 @@ class Ok(Result[A]):
         return self._value
 
 
-@dataclass
+@dataclass(frozen=True)
 class Err(Result[Any]):
     _error: Exception
 

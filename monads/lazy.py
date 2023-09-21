@@ -7,7 +7,7 @@ from typing import Any, Callable, List, TypeVar
 A = TypeVar("A")
 B = TypeVar("B")
 
-@dataclass
+@dataclass(frozen=True)
 class Lazy(Monad[A]):
     _value: Any
     _funcs: List[Callable[[Any], Any | A]] = field(default_factory=list)
