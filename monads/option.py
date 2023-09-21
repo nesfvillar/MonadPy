@@ -10,15 +10,15 @@ from dataclasses import dataclass
 A = TypeVar("A")
 B = TypeVar("B")
 
-class Optional(Monad[A]):
+class Option(Monad[A]):
     ...
 
 
 @dataclass(frozen=True)
-class Some(Optional[A]):
+class Some(Option[A]):
     _value: A
 
-    def fmap(self, func: Callable[[A], B]) -> Optional[B]:
+    def fmap(self, func: Callable[[A], B]) -> Option[B]:
         try:
             new_value = func(self._value)
             return Some(new_value)
@@ -29,7 +29,7 @@ class Some(Optional[A]):
         return self._value
 
 
-class Nothing(Optional[Any]):
+class Nothing(Option[Any]):
     def fmap(self, func: Callable[[Any], Any]) -> Nothing:
         return self
 
