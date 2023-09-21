@@ -1,5 +1,6 @@
-from .monad import *
-from .optional import *
-from .result import *
-from .lazy import *
-from .functor import *
+from .monad import Monad
+from .optional import Some, Nothing
+from .result import Ok, Err
+from .lazy import Lazy
+from .functor import Functor
+from .applicative import Applicative
