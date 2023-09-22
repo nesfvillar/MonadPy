@@ -3,7 +3,7 @@ from __future__ import annotations
 from monad import Monad
 
 from dataclasses import dataclass, field
-from typing import Any, Callable, List, TypeVar
+from typing import Any, Callable, TypeVar
 
 
 A = TypeVar("A")
@@ -12,7 +12,7 @@ B = TypeVar("B")
 @dataclass(frozen=True)
 class Lazy(Monad[A]):
     _value: Any
-    _funcs: List[Callable[[Any], Any | A]] = field(default_factory=list)
+    _funcs: list[Callable[[Any], Any | A]] = field(default_factory=list)
 
     def fmap(self, func: Callable[[A], B]) -> Lazy[B]:
         return Lazy(self._value, self._funcs + [func])
