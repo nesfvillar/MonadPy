@@ -6,9 +6,9 @@ from .functor import Functor
 from abc import abstractmethod
 from typing import Callable, TypeVar
 
-
 A = TypeVar("A")
 B = TypeVar("B")
+
 
 class Monad(Applicative[A]):
     @abstractmethod
