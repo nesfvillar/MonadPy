@@ -19,7 +19,7 @@ class TestSome(unittest.TestCase):
         self.assertEqual(result, Some('5World!'))
 
     def test_bind(self):
-        def f(s): return Some(s + 'World!')
+        def f(s: str): return Some(s + 'World!')
         result = self.s.bind(f)
         self.assertEqual(result, Some('5World!'))
 
