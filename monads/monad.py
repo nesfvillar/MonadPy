@@ -9,6 +9,8 @@ from typing import TypeVar
 
 A = TypeVar("A")
 B = TypeVar("B")
+F = TypeVar("F", bound=Functor)
+M = TypeVar("M", bound='Monad')
 
 
 class Monad(Applicative[A]):
@@ -16,10 +18,12 @@ class Monad(Applicative[A]):
     def unwrap(self) -> A:
         ...
 
-    def apply(self: Monad[Callable[[A], B]], value: Functor[A]) -> Functor[B]:
+    # def apply(self: Monad[Callable[[A], B]], value: F[B]) -> F[B]:
+    def apply(self: Monad[Callable[[A], B]], value: F) -> F:
         func = self.unwrap()
         return value.fmap(func)
 
-    def bind(self, func: Callable[[A], Monad[B]]) -> Monad[B]:
+    # def bind(self, func: Callable[[A], M[B]]) -> M[B]:
+    def bind(self, func: Callable[[A], M]) -> M:
         value = self.unwrap()
         return func(value)
