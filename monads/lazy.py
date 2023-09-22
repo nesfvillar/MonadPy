@@ -3,11 +3,12 @@ from __future__ import annotations
 from .monad import Monad
 
 from dataclasses import dataclass, field
-from typing import Any, Callable, TypeVar
-
+from collections.abc import Callable
+from typing import Any, TypeVar
 
 A = TypeVar("A")
 B = TypeVar("B")
+
 
 @dataclass(frozen=True)
 class Lazy(Monad[A]):

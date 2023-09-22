@@ -4,7 +4,8 @@ from .functor import Functor
 from .monad import Monad
 
 from dataclasses import dataclass
-from typing import Any, Callable, Never, TypeVar
+from collections.abc import Callable
+from typing import Any, Never, TypeVar
 
 A = TypeVar("A")
 B = TypeVar("B")
