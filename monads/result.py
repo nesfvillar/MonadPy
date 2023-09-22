@@ -3,8 +3,8 @@ from __future__ import annotations
 from .functor import Functor
 from .monad import Monad
 
-from typing import Any, Callable, Never, TypeVar
 from dataclasses import dataclass
+from typing import Any, Callable, Never, TypeVar
 
 
 A = TypeVar("A")
