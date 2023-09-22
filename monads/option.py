@@ -20,11 +20,8 @@ class Some(Option[A]):
     _value: A
 
     def fmap(self, func: Callable[[A], B]) -> Option[B]:
-        try:
-            new_value = func(self._value)
-            return Some(new_value)
-        except Exception:
-            return Nothing()
+        new_value = func(self._value)
+        return Some(new_value)
 
     def unwrap(self) -> A:
         return self._value
