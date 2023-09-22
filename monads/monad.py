@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from applicative import Applicative
-from functor import Functor
+from .applicative import Applicative
+from .functor import Functor
 
 from abc import abstractmethod
 from typing import Callable, TypeVar

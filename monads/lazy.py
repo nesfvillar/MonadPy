@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from monad import Monad
+from .monad import Monad
 
 from dataclasses import dataclass, field
 from typing import Any, Callable, TypeVar
