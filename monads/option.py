@@ -3,7 +3,7 @@ from __future__ import annotations
 from functor import Functor
 from monad import Monad
 
-from typing import Any, Callable, TypeVar
+from typing import Any, Callable, Never, TypeVar
 from dataclasses import dataclass
 
 
@@ -36,7 +36,7 @@ class Nothing(Option[Any]):
     def apply(self, value: Functor[Any]) -> Nothing:
         return self
 
-    def unwrap(self) -> None:
+    def unwrap(self) -> Never:
         raise ValueError("Unwrapped a Nothing value")
 
     def bind(self, func: Callable[[Any], Monad[Any]]) -> Nothing:

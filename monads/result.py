@@ -3,7 +3,7 @@ from __future__ import annotations
 from functor import Functor
 from monad import Monad
 
-from typing import Any, Callable, TypeVar
+from typing import Any, Callable, Never, TypeVar
 from dataclasses import dataclass
 
 
@@ -39,7 +39,7 @@ class Err(Result[Any]):
     def apply(self, value: Functor[Any]) -> Err:
         return self
 
-    def unwrap(self) -> None:
+    def unwrap(self) -> Never:
         raise self._error
 
     def bind(self, func: Callable[[Any], Monad[Any]]) -> Err:
