@@ -4,6 +4,7 @@ from .monad import Monad
 
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
+from functools import reduce
 from itertools import chain
 from typing import Any, TypeVar
 
@@ -20,7 +21,4 @@ class Lazy(Monad[A]):
         return Lazy(self._value, chain(self._funcs, [func]))
 
     def unwrap(self) -> A:
-        value = self._value
-        for func in self._funcs:
-            value = func(value)
-        return value
+        return reduce(lambda value, func: func(value), self._funcs, self._value)
