@@ -1,13 +1,5 @@
-from __future__ import annotations
-
-from abc import abstractmethod
-from typing import Callable, Generic, TypeVar
+from typing import Callable, Protocol
 
 
-A = TypeVar("A")
-B = TypeVar("B")
-
-class Functor(Generic[A]):
-    @abstractmethod
-    def fmap(self, func: Callable[[A], B]) -> Functor[B]:
-        ...
+class Functor[T](Protocol):
+    def fmap[U](self, func: Callable[[T], U]) -> "Functor[U]": ...

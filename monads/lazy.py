@@ -1,24 +1,19 @@
-from __future__ import annotations
+from dataclasses import dataclass
+from typing import Callable
 
-from .monad import Monad
-
-from dataclasses import dataclass, field
-from typing import Any, Callable, TypeVar
-
-
-A = TypeVar("A")
-B = TypeVar("B")
 
 @dataclass(frozen=True)
-class Lazy(Monad[A]):
-    _value: Any
-    _funcs: list[Callable[[Any], Any | A]] = field(default_factory=list)
+class Lazy[T]:
+    _func: Callable[[], T]
 
-    def fmap(self, func: Callable[[A], B]) -> Lazy[B]:
-        return Lazy(self._value, self._funcs + [func])
+    def fmap[U](self, func: Callable[[T], U]) -> "Lazy[U]":
+        return Lazy(lambda: func(self._func()))
 
-    def unwrap(self) -> A:
-        value = self._value
-        for func in self._funcs:
-            value = func(value)
-        return value
+    def apply[U, V](self: "Lazy[Callable[[U], V]]", value: "Lazy[U]") -> "Lazy[V]":
+        return value.fmap(self.unwrap())
+
+    def bind[U](self, func: Callable[[T], "Lazy[U]"]) -> "Lazy[U]":
+        return self.fmap(lambda x: func(x).unwrap())
+
+    def unwrap(self) -> T:
+        return self._func()
